@@ -41,29 +41,24 @@ public class GamePanel extends JPanel implements Runnable {
         // GAME LOOP
 
         double drawInterval = 1000000000 / FPS; // 0.01666 seconds
-        double nextDrawTime = System.nanoTime() + drawInterval;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
 
         while(gameThread != null) {
+
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
             // 1 UPDATE: update information such as character positions
             update();
             // 2 DRAW: draw the screen with the updated information
             repaint(); // calling paintComponent method
-
-            try {
-                double remainingTime = nextDrawTime - System.nanoTime();
-                remainingTime = remainingTime / 1000000;
-
-                if (remainingTime < 0) {
-                    remainingTime = 0;
-                }
-
-                Thread.sleep((long) remainingTime);
-
-                nextDrawTime += drawInterval;
-
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                delta--;
             }
+
         }
     }
 
@@ -72,13 +67,13 @@ public class GamePanel extends JPanel implements Runnable {
         if (keyH.upPressed == true) {
             playerY -= playerSpeed;
         }
-        else if (keyH.downPressed == true) {
+        if (keyH.downPressed == true) {
             playerY += playerSpeed;
         }
-        else if (keyH.leftPressed == true) {
+        if (keyH.leftPressed == true) {
             playerX -= playerSpeed;
         }
-        else if (keyH.rightPressed == true) {
+        if (keyH.rightPressed == true) {
             playerX += playerSpeed;
         }
     }
