@@ -72,10 +72,10 @@ public class Player extends Entity {
             spriteCounter++;
             if (spriteCounter > 12) {
                 if (spriteNum == 1) {
-                    spriteNum = 3;
+                    spriteNum = 2;      // skipping 3 because that's the "resting" image
                 }
                 else if (spriteNum == 2) {
-                    spriteNum = 3;
+                    spriteNum = 1;      // skipping 3 because that's the "resting" image
                 }
                 else if (spriteNum == 3) {
                     spriteNum = 1;
@@ -84,7 +84,7 @@ public class Player extends Entity {
             }
         }
         else {
-            spriteNum = 2;
+            spriteNum = 3;  // resting image
         }
     }
 
@@ -100,10 +100,10 @@ public class Player extends Entity {
                     image = up1;
                 }
                 if (spriteNum == 2) {
-                    image = upStill;
+                    image = up2;
                 }
                 if (spriteNum == 3) {
-                    image = up2;
+                    image = upStill;
                 }
             }
             case "down" -> {
@@ -111,10 +111,10 @@ public class Player extends Entity {
                     image = down1;
                 }
                 if (spriteNum == 2) {
-                    image = downStill;
+                    image = down2;
                 }
                 if (spriteNum == 3) {
-                    image = down2;
+                    image = downStill;
                 }
             }
             case "left" -> {
@@ -122,10 +122,10 @@ public class Player extends Entity {
                     image = left1;
                 }
                 if (spriteNum == 2) {
-                    image = leftStill;
+                    image = left2;
                 }
                 if (spriteNum == 3) {
-                    image = left2;
+                    image = leftStill;
                 }
             }
             case "right" -> {
@@ -133,10 +133,10 @@ public class Player extends Entity {
                     image = right1;
                 }
                 if (spriteNum == 2) {
-                    image = rightStill;
+                    image = right2;
                 }
                 if (spriteNum == 3) {
-                    image = right2;
+                    image = rightStill;
                 }
             }
         }
