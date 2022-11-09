@@ -39,14 +39,12 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         // GAME LOOP
-
         double drawInterval = 1000000000 / FPS; // 0.01666 seconds
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
 
         while(gameThread != null) {
-
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
@@ -58,22 +56,21 @@ public class GamePanel extends JPanel implements Runnable {
             repaint(); // calling paintComponent method
                 delta--;
             }
-
         }
     }
 
     public void update() {
 
-        if (keyH.upPressed == true) {
+        if (keyH.upPressed) {
             playerY -= playerSpeed;
         }
-        if (keyH.downPressed == true) {
+        if (keyH.downPressed) {
             playerY += playerSpeed;
         }
-        if (keyH.leftPressed == true) {
+        if (keyH.leftPressed) {
             playerX -= playerSpeed;
         }
-        if (keyH.rightPressed == true) {
+        if (keyH.rightPressed) {
             playerX += playerSpeed;
         }
     }
