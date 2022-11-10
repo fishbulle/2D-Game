@@ -12,8 +12,8 @@ import java.io.InputStreamReader;
 public class TileManager {
 
     GamePanel gp;
-    Tile[] tile;
-    int[][] mapTileNum;  // stores the map data from the txt file
+    public Tile[] tile;
+    public int[][] mapTileNum;  // stores the map data from the txt file
 
     public TileManager(GamePanel gp) {
         this.gp = gp;

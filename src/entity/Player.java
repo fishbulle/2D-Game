@@ -20,6 +20,7 @@ public class Player extends Entity {
         this.keyH = keyH;
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+        solidArea = new Rectangle(8, 16, 32, 32);  // adjust for managing sprite collision
 
         setDefaultValues();
         getPlayerImage();
@@ -71,6 +72,10 @@ public class Player extends Entity {
                 direction = "right";
                 worldX += speed;
             }
+
+            // CHECK FOR COLLISION WITH SOLID TILE
+            collisionOn = false;
+            gp.collisionCheck.checkTile(this); // "this" means this player class as entity
 
             spriteCounter++;
             if (spriteCounter > 12) {
