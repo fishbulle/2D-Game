@@ -130,6 +130,10 @@ public class Player extends Entity {
                     }
                     break;
                 case "Shoe":
+                    System.out.println("You found a pink shoe!");
+                    break;
+                case "Stone":
+                    System.out.println("Ouch, your toe hurt from hitting that rock!");
                     break;
             }
         }

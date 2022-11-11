@@ -1,9 +1,6 @@
 package main;
 
-import object.Chest;
-import object.Door;
-import object.Key;
-import object.Shoe;
+import object.*;
 
 public class AssetSetter {
 
@@ -37,5 +34,9 @@ public class AssetSetter {
         gp.obj[5] = new Shoe();
         gp.obj[5].worldX = 40 * gp.tileSize;
         gp.obj[5].worldY = 15 * gp.tileSize;
+
+        gp.obj[6] = new Stone();
+        gp.obj[6].worldX = 25 * gp.tileSize;
+        gp.obj[6].worldY = 22 * gp.tileSize;
     }
 }
