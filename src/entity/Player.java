@@ -14,7 +14,7 @@ public class Player extends Entity {
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
+    public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -119,26 +119,26 @@ public class Player extends Entity {
                     gp.playSE(1);
                     hasKey++;
                     gp.obj[i] = null;
-                    System.out.println("You found a key! You now have " + hasKey + " keys.");
+                    gp.ui.showMessage("You found a key!");
                     break;
                 case "Door":
-                    gp.playSE(3);
                     if (hasKey > 0) {
+                        gp.playSE(3);
                         gp.obj[i] = null;
                         hasKey--;
-                        System.out.println("Key used. You now have " + hasKey + " keys left.");
+                        gp.ui.showMessage("The door creaks open.");
                     } else {
-                        System.out.println("You don't have a key to open this door.");
+                        gp.ui.showMessage("You don't have a key to open this door.");
                     }
                     break;
                 case "Boots":
                     gp.playSE(2);
-                    System.out.println("You found a pair of shiny, pink boots! Maybe they'll be useful somehow...");
+                    gp.ui.showMessage("You found a pair of shiny, pink boots! Maybe they'll be useful somehow...");
                     speed += 2;
                     gp.obj[i] = null;
                     break;
                 case "Stone":
-                    System.out.println("Ouch, your big toe hurt as fuck from hitting that rock.");
+                    gp.ui.showMessage("Ouch, your big toe hurt as fuck from hitting that rock.");
                     break;
             }
         }
