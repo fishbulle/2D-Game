@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.Boots;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -111,14 +112,13 @@ public class Player extends Entity {
 
     public void pickUpObject(int i) {
         if (i != 999) {
-           // gp.obj[i] = null; // deletes the object player touches
             String objectName = gp.obj[i].name;
 
             switch (objectName) {
                 case "Key":
                     gp.playSE(1);
                     hasKey++;
-                    gp.obj[i] = null;
+                    gp.obj[i] = null; // deletes the object player touches
                     gp.ui.showMessage("You found a key!");
                     break;
                 case "Door":
@@ -126,19 +126,24 @@ public class Player extends Entity {
                         gp.playSE(3);
                         gp.obj[i] = null;
                         hasKey--;
-                        gp.ui.showMessage("The door creaks open.");
+                        gp.ui.showMessage("The door creaks open...");
                     } else {
                         gp.ui.showMessage("You don't have a key to open this door.");
                     }
                     break;
                 case "Boots":
                     gp.playSE(2);
-                    gp.ui.showMessage("You found a pair of shiny, pink boots! Maybe they'll be useful somehow...");
+                    gp.ui.showMessage("You found a pair of pink, magical boots! Speed +2");
                     speed += 2;
                     gp.obj[i] = null;
                     break;
                 case "Stone":
-                    gp.ui.showMessage("Ouch, your big toe hurt as fuck from hitting that rock.");
+                    gp.ui.showMessage("Ouch!");
+                    break;
+                case "Chest":
+                    gp.ui.gameOver = true;
+                    gp.stopMusic();
+                    gp.playSE(4);
                     break;
             }
         }
