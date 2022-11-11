@@ -116,24 +116,29 @@ public class Player extends Entity {
 
             switch (objectName) {
                 case "Key":
+                    gp.playSE(1);
                     hasKey++;
                     gp.obj[i] = null;
-                    System.out.println("Keys: " + hasKey);
+                    System.out.println("You found a key! You now have " + hasKey + " keys.");
                     break;
                 case "Door":
+                    gp.playSE(3);
                     if (hasKey > 0) {
                         gp.obj[i] = null;
                         hasKey--;
-                        System.out.println("Keys: " + hasKey);
+                        System.out.println("Key used. You now have " + hasKey + " keys left.");
                     } else {
                         System.out.println("You don't have a key to open this door.");
                     }
                     break;
-                case "Shoe":
-                    System.out.println("You found a pink shoe!");
+                case "Boots":
+                    gp.playSE(2);
+                    System.out.println("You found a pair of shiny, pink boots! Maybe they'll be useful somehow...");
+                    speed += 2;
+                    gp.obj[i] = null;
                     break;
                 case "Stone":
-                    System.out.println("Ouch, your toe hurt from hitting that rock!");
+                    System.out.println("Ouch, your big toe hurt as fuck from hitting that rock.");
                     break;
             }
         }
