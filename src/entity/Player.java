@@ -14,6 +14,7 @@ public class Player extends Entity {
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -21,6 +22,8 @@ public class Player extends Entity {
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
         solidArea = new Rectangle(14, 32, 20, 12);  // adjust for managing sprite collision
+        solidAreaDefaultX = 14;
+        solidAreaDefaultY = 32;
 
         setDefaultValues();
         getPlayerImage();
@@ -73,6 +76,10 @@ public class Player extends Entity {
             collisionOn = false;
             gp.collisionCheck.checkTile(this); // "this" means this player class as entity
 
+            // CHECK FOR COLLISION WITH OBJECT
+            int objectIndex = gp.collisionCheck.checkObject(this, true);
+            pickUpObject(objectIndex);
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (!collisionOn) {
                 switch (direction) {
@@ -99,6 +106,32 @@ public class Player extends Entity {
         }
         else {
             spriteNum = 3;  // resting image
+        }
+    }
+
+    public void pickUpObject(int i) {
+        if (i != 999) {
+           // gp.obj[i] = null; // deletes the object player touches
+            String objectName = gp.obj[i].name;
+
+            switch (objectName) {
+                case "Key":
+                    hasKey++;
+                    gp.obj[i] = null;
+                    System.out.println("Keys: " + hasKey);
+                    break;
+                case "Door":
+                    if (hasKey > 0) {
+                        gp.obj[i] = null;
+                        hasKey--;
+                        System.out.println("Keys: " + hasKey);
+                    } else {
+                        System.out.println("You don't have a key to open this door.");
+                    }
+                    break;
+                case "Shoe":
+                    break;
+            }
         }
     }
 
