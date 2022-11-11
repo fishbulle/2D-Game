@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -28,7 +29,9 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     public CollisionCheck collisionCheck = new CollisionCheck(this);
+    public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this, keyH);
+    public SuperObject[] obj = new SuperObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -36,6 +39,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);  // can improve the game's rendering performance
         this.addKeyListener(keyH);  // for the game to recognize the key input
         this.setFocusable(true);
+    }
+
+    public void setUpGame() {
+        aSetter.setObject();
     }
 
     public void startGameThread() {
@@ -73,7 +80,18 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
+        // TILES
         tileM.draw(g2);     // calling draw in TileManager class (before player or else tiles will hide player)
+
+        // OBJECT
+        for (int i = 0; i < obj.length; i++) {
+            if (obj[i] != null) {
+                obj[i].draw(g2, this);
+            }
+        }
+
+        // PLAYER
         player.draw(g2); // calling draw in Player class
         g2.dispose();
     }
