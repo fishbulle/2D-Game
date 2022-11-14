@@ -118,8 +118,12 @@ public class Player extends Entity {
 
     public void interactNPC(int i) {
         if (i != 999) {
-            System.out.println("Get out of my way!");
-        }
+//          if (gp.keyH.talk) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
+//      }
+//      gp.keyH.talk = false;
     }
 
     public void draw(Graphics2D g2) {

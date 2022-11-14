@@ -1,11 +1,6 @@
 package entity;
 
 import main.GamePanel;
-import main.UtilityTool;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 public class NPC_OldMan extends Entity {
@@ -17,6 +12,7 @@ public class NPC_OldMan extends Entity {
         speed = 1;
 
         getImage();
+        setDialogue();
     }
 
     public void getImage() {
@@ -29,6 +25,13 @@ public class NPC_OldMan extends Entity {
         left2 = setUp("npc/oldman_left_2");
         right1 = setUp("npc/oldman_right_1");
         right2 = setUp("npc/oldman_right_2");
+    }
+
+    public void setDialogue() {
+        dialogue[0] = "Hello stranger.";
+        dialogue[1] = "I see you have stumbled upon my enchanted island. \nDo be aware of possible dangers ahead. \nI cannot seem to remember where the monsters dwell.";
+        dialogue[2] = ". . .";
+        dialogue[3] = "Did you happen to have a boat?";
     }
 
     public void setAction() {
@@ -60,4 +63,7 @@ public class NPC_OldMan extends Entity {
         }
     }
 
+    public void speak() {
+        super.speak();
+    }
 }

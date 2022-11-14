@@ -12,20 +12,16 @@ public class UI {
      Graphics2D g2;
      Font font1;
      Font font2;
-     BufferedImage keyImg;
      public boolean messageOn;
      public String message;
      int messageCounter = 0;
      public boolean gameOver;
-     double playTime;
-     DecimalFormat dFormat = new DecimalFormat("#0.00");
+     public String currentDialogue;
 
      public UI(GamePanel gp) {
          this.gp = gp;
          font1 = new Font("Arial", Font.BOLD, 30);
          font2 = new Font("Arial", Font.BOLD, 80);
-//       Key key = new Key(gp);
-//       keyImg = key.image;
      }
 
      public void showMessage(String text) {
@@ -39,24 +35,58 @@ public class UI {
          g2.setFont(font2);
          g2.setColor(Color.WHITE);
 
+         // PLAY STATE
          if (gp.gameState == gp.playState) {
              // Do playState stuff
          }
-
+         // PAUSE STATE
          if (gp.gameState == gp.pauseState) {
              drawPauseScreen();
+         }
+         // DIALOGUE STATE
+         if (gp.gameState == gp.dialogueState) {
+             drawDialogueScreen();
          }
      }
 
      public void drawPauseScreen() {
          String text = "GAME PAUSED";
-         int x = getXforCenteredText(text);
+         int x = getXForCenteredText(text);
          int y = gp.screenHeight / 2;
 
          g2.drawString(text, x, y);
      }
 
-     public int getXforCenteredText(String text) {
+     public void drawDialogueScreen() {
+         // Dialogue window
+         int x = gp.tileSize * 2;
+         int y = gp.tileSize / 2;
+         int width = gp.screenWidth - (gp.tileSize * 4);
+         int height = gp.tileSize * 4;
+         drawWindow(x, y, width, height);
+
+         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20F));
+         x += gp.tileSize;
+         y += gp.tileSize;
+
+         for (String line : currentDialogue.split("\n")) {
+             g2.drawString(line, x, y);
+             y += 40;
+         }
+     }
+
+     public void drawWindow(int x, int y, int width, int height) {
+         Color c = new Color(0, 0, 0, 210); // last number is alpha value (adjusts opacity)
+         g2.setColor(c);
+         g2.fillRoundRect(x, y, width, height, 35, 35);
+
+         c = new Color(255, 255, 255);
+         g2.setColor(c);
+         g2.setStroke(new BasicStroke(5));
+         g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
+     }
+
+     public int getXForCenteredText(String text) {
          int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
          return (gp.screenWidth / 2) - (length / 2);
      }
