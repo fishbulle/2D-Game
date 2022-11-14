@@ -12,14 +12,12 @@ import java.io.IOException;
 
 public class Player extends Entity {
 
-    GamePanel gp;
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-//  public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
@@ -40,33 +38,21 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
 
-        up1 = setUp("sprite.up1");
-        up2 = setUp("sprite.up2");
-        upStill = setUp("sprite.upstill");
-        down1 = setUp("sprite.down1");
-        down2 = setUp("sprite.down2");
-        downStill = setUp("sprite.downstill");
-        left1 = setUp("sprite.left1");
-        left2 = setUp("sprite.left2");
-        leftStill = setUp("sprite.leftstill");
-        right1 = setUp("sprite.right1");
-        right2 = setUp("sprite.right2");
-        rightStill = setUp("sprite.rightstill");
+        up1 = setUp("player/sprite.up1");
+        up2 = setUp("player/sprite.up2");
+        upStill = setUp("player/sprite.upstill");
+        down1 = setUp("player/sprite.down1");
+        down2 = setUp("player/sprite.down2");
+        downStill = setUp("player/sprite.downstill");
+        left1 = setUp("player/sprite.left1");
+        left2 = setUp("player/sprite.left2");
+        leftStill = setUp("player/sprite.leftstill");
+        right1 = setUp("player/sprite.right1");
+        right2 = setUp("player/sprite.right2");
+        rightStill = setUp("player/sprite.rightstill");
     }
 
-    public BufferedImage setUp(String imageName) {
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/" + imageName + ".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
-
-    public void update () {
+    public void update() {
 
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 
@@ -90,6 +76,10 @@ public class Player extends Entity {
             // CHECK FOR COLLISION WITH OBJECT
             int objectIndex = gp.collisionCheck.checkObject(this, true);
             pickUpObject(objectIndex);
+
+            // CHECK NPC COLLISION
+            int npcIndex = gp.collisionCheck.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (!collisionOn) {
@@ -123,6 +113,12 @@ public class Player extends Entity {
     public void pickUpObject(int i) {
         if (i != 999) {
 
+        }
+    }
+
+    public void interactNPC(int i) {
+        if (i != 999) {
+            System.out.println("Get out of my way!");
         }
     }
 
