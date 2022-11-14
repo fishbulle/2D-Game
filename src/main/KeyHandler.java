@@ -22,6 +22,22 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode(); // returns the number of the key that was pressed
 
+        // TITLE STATE
+        if (gp.gameState == gp.titleState) {
+            if (code == KeyEvent.VK_UP) {
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum < 0) {
+                    gp.ui.commandNum = 2;
+                }
+            }
+            if (code == KeyEvent.VK_DOWN) {
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum > 2) {
+                    gp.ui.commandNum = 0;
+                }
+            }
+        }
+
         // PLAY STATE
         if (gp.gameState == gp.playState) {
             if (code == KeyEvent.VK_W) {

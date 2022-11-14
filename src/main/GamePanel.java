@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // GAME STATE
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
@@ -57,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setObject();
         aSetter.setNPC();
         playMusic(0);
-        gameState = playState;
+        gameState = titleState;
     }
 
     public void startGameThread() {
@@ -94,9 +95,9 @@ public class GamePanel extends JPanel implements Runnable {
             player.update();  // calling update in Player class
 
             // NPC
-            for (int i = 0; i < npc.length; i++) {
-                if (npc[i] != null) {
-                    npc[i].update();
+            for (Entity entity : npc) {
+                if (entity != null) {
+                    entity.update();
                 }
             }
         }
@@ -116,28 +117,33 @@ public class GamePanel extends JPanel implements Runnable {
             drawStart = System.nanoTime();
         }
 
-        // TILES
-        tileM.draw(g2);     // calling draw in TileManager class (before player or else tiles will hide player)
-
-        // OBJECT
-        for (int i = 0; i < obj.length; i++) {
-            if (obj[i] != null) {
-                obj[i].draw(g2, this);
-            }
+        // TITLE SCREEN
+        if (gameState == titleState) {
+            ui.draw(g2);
         }
+        // OTHERS
+        else {
+            // TILES
+            tileM.draw(g2);     // calling draw in TileManager class (before player or else tiles will hide player)
 
-        // NPC
-        for (int i = 0; i < npc.length; i++) {
-            if (npc[i] != null) {
-                npc[i].draw(g2);
+            // OBJECT
+            for (SuperObject superObject : obj) {
+                if (superObject != null) {
+                    superObject.draw(g2, this);
+                }
             }
+            // NPC
+            for (Entity entity : npc) {
+                if (entity != null) {
+                    entity.draw(g2);
+                }
+            }
+            // PLAYER
+            player.draw(g2); // calling draw in Player class
+
+            // UI
+            ui.draw(g2);
         }
-
-        // PLAYER
-        player.draw(g2); // calling draw in Player class
-
-        // UI
-        ui.draw(g2);
 
         // DEBUG
         if (keyH.checkDrawTime) {
