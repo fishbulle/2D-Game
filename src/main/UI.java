@@ -1,6 +1,10 @@
 package main;
 
+import object.Heart;
+import object.SuperObject;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
@@ -10,6 +14,7 @@ public class UI {
      GamePanel gp;
      Graphics2D g2;
      Font dogicaPixel, dogicaPixelBold;
+     BufferedImage heartFull, heartHalf, heartEmpty;
      public boolean messageOn;
      public String message;
      int messageCounter = 0;
@@ -30,6 +35,12 @@ public class UI {
          } catch (FontFormatException | IOException e) {
              e.printStackTrace();
          }
+
+         // CREATE HUD OBJECT
+         SuperObject heart = new Heart(gp);
+         heartFull = heart.image;
+         heartHalf = heart.image2;
+         heartEmpty = heart.image3;
      }
 
      public void showMessage(String text) {
@@ -49,16 +60,49 @@ public class UI {
          }
          // PLAY STATE
          if (gp.gameState == gp.playState) {
-             // Do playState stuff
+             drawPlayerLife();
          }
          // PAUSE STATE
          if (gp.gameState == gp.pauseState) {
+             drawPlayerLife();
              drawPauseScreen();
          }
          // DIALOGUE STATE
          if (gp.gameState == gp.dialogueState) {
+             drawPlayerLife();
              drawDialogueScreen();
          }
+     }
+
+     public void drawPlayerLife() {
+         int x = gp.tileSize / 2;
+         int y = gp.tileSize / 2;
+         int i = 0;
+         // 2 lives = 1 full heart
+
+         // DRAW MAX LIFE
+         while (i < gp.player.maxLife / 2) {
+             g2.drawImage(heartEmpty, x, y, null);
+             i++;
+             x += gp.tileSize;
+         }
+
+         // RESET VALUES
+         x = gp.tileSize / 2;
+         y = gp.tileSize / 2;
+         i = 0;
+
+         // DRAW CURRENT LIFE
+         while (i < gp.player.life) {
+             g2.drawImage(heartHalf, x, y, null);
+             i++;
+             if (i < gp.player.life) {
+                 g2.drawImage(heartFull, x, y, null);
+             }
+             i++;
+             x += gp.tileSize;
+         }
+
      }
 
     public void drawTitleScreen() {
