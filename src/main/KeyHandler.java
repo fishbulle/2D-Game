@@ -11,7 +11,7 @@ public class KeyHandler implements KeyListener {
     GamePanel gp;
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean checkDrawTime;
-    public boolean talk;
+    public boolean enterPressed;
 
     public KeyHandler (GamePanel gp) {
         this.gp = gp;
@@ -105,7 +105,7 @@ public class KeyHandler implements KeyListener {
                 gp.gameState = gp.pauseState;
             }
             if (code == KeyEvent.VK_ENTER) {
-                talk = true;
+                enterPressed = true;
             }
 
             // DEBUG
@@ -121,7 +121,7 @@ public class KeyHandler implements KeyListener {
         }
         // DIALOGUE STATE
         else if (gp.gameState == gp.dialogueState) {
-            if (code == KeyEvent.VK_SPACE) {
+            if (code == KeyEvent.VK_ENTER) {
                 gp.gameState = gp.playState;
             }
         }

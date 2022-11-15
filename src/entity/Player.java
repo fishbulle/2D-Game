@@ -2,13 +2,8 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import main.UtilityTool;
-import object.Boots;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Player extends Entity {
 
@@ -21,7 +16,7 @@ public class Player extends Entity {
         this.keyH = keyH;
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-        solidArea = new Rectangle(14, 32, 20, 12);  // adjust for managing sprite collision
+        solidArea = new Rectangle(14, 32, 20, 16);  // adjust for managing sprite collision
         solidAreaDefaultX = 14;
         solidAreaDefaultY = 32;
 
@@ -87,6 +82,7 @@ public class Player extends Entity {
 
             // CHECK EVENT COLLISION
             gp.eHandler.checkEvent();
+            gp.keyH.enterPressed = false;
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (!collisionOn) {
@@ -125,12 +121,11 @@ public class Player extends Entity {
 
     public void interactNPC(int i) {
         if (i != 999) {
-//          if (gp.keyH.talk) {
+//        if (gp.keyH.enterPressed) {
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
-            }
-//      }
-//      gp.keyH.talk = false;
+//            }
+      }
     }
 
     public void draw(Graphics2D g2) {

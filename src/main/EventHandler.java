@@ -22,8 +22,11 @@ public class EventHandler {
 
     public void checkEvent() {
 
-        if (hit(26, 16, "any")) {
+        if (hit(26, 16, "right")) {
             damagePit(gp.dialogueState);
+        }
+        if (hit(23, 12, "up")) {
+            healingPool(gp.dialogueState);
         }
 
     }
@@ -55,6 +58,14 @@ public class EventHandler {
         gp.gameState = gameState;
         gp.ui.currentDialogue = "You fell into a pit!";
         gp.player.life -= 1;
+    }
+
+    public void healingPool(int gameState) {
+        if (gp.keyH.enterPressed) {
+            gp.gameState = gameState;
+            gp.ui.currentDialogue = "You drink the water. \n Your life has been restored.";
+            gp.player.life = gp.player.maxLife;
+        }
     }
 
 }
