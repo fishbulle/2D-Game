@@ -22,6 +22,8 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn;
     public int actionLockCounter = 0;
+    public boolean invincible;
+    public int invincibleCounter = 0;
     String[] dialogue = new String[20];
     public int dialogueIndex = 0;
     public BufferedImage image, image2, image3;
@@ -61,6 +63,8 @@ public class Entity {
         collisionOn = false;
         gp.collisionCheck.checkTile(this);
         gp.collisionCheck.checkObject(this, false);
+        gp.collisionCheck.checkEntity(this, gp.npc);
+        gp.collisionCheck.checkEntity(this, gp.monster);
         gp.collisionCheck.checkPlayer(this);
 
         // IF COLLISION IS FALSE, NPC CAN MOVE

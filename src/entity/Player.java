@@ -80,6 +80,10 @@ public class Player extends Entity {
             int npcIndex = gp.collisionCheck.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
+            // CHECK MONSTER COLLISION
+            int monsterIndex = gp.collisionCheck.checkEntity(this, gp.monster);
+            contactMonster(monsterIndex);
+
             // CHECK EVENT COLLISION
             gp.eHandler.checkEvent();
             gp.keyH.enterPressed = false;
@@ -111,6 +115,16 @@ public class Player extends Entity {
         else {
             spriteNum = 3;  // resting image
         }
+
+        // Needs to be outside of if statement! ^
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 60) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
     }
 
     public void pickUpObject(int i) {
@@ -126,6 +140,15 @@ public class Player extends Entity {
                 gp.npc[i].speak();
             }
       }
+    }
+
+    public void contactMonster(int i) {
+        if (i != 999) {
+            if (!invincible) {
+                life -= 1;
+                invincible = true;
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
