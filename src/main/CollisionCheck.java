@@ -134,7 +134,9 @@ public class CollisionCheck {
         return index;
     }
 
-    public void checkPlayer(Entity entity) {
+    public boolean checkPlayer(Entity entity) {
+
+        boolean contactPlayer = false;
 
         // Get entity's solid area position
         entity.solidArea.x = entity.worldX + entity.solidArea.x;
@@ -145,35 +147,23 @@ public class CollisionCheck {
 
         // Simulating entity's movement and check where it will be after it moves
         switch (entity.direction) {
-            case "up":
-                entity.solidArea.y -= entity.speed;
-                if (entity.solidArea.intersects(gp.player.solidArea)) {
-                    entity.collisionOn = true;
-                }
-                break;
-            case "down":
-                entity.solidArea.y += entity.speed;
-                if (entity.solidArea.intersects(gp.player.solidArea)) {
-                    entity.collisionOn = true;
-                }
-                break;
-            case "left":
-                entity.solidArea.x -= entity.speed;
-                if (entity.solidArea.intersects(gp.player.solidArea)) {
-                    entity.collisionOn = true;
-                }
-                break;
-            case "right":
-                entity.solidArea.x += entity.speed;
-                if (entity.solidArea.intersects(gp.player.solidArea)) {
-                    entity.collisionOn = true;
-                }
-                break;
+            case "up" -> entity.solidArea.y -= entity.speed;
+            case "down" -> entity.solidArea.y += entity.speed;
+            case "left" -> entity.solidArea.x -= entity.speed;
+            case "right" -> entity.solidArea.x += entity.speed;
         }
+
+        if (entity.solidArea.intersects(gp.player.solidArea)) {
+            entity.collisionOn = true;
+            contactPlayer = true;
+        }
+
         entity.solidArea.x = entity.solidAreaDefaultX;
         entity.solidArea.y = entity.solidAreaDefaultY;
         gp.player.solidArea.x = gp.player.solidAreaDefaultX;
         gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+
+        return contactPlayer;
     }
 
 }

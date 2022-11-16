@@ -9,6 +9,7 @@ public class MON_PurpleBlob extends Entity {
     public MON_PurpleBlob(GamePanel gp) {
         super(gp);
 
+        type = 2;
         name = "Purple Blob";
         speed = 1;
         maxLife = 4;

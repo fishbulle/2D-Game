@@ -29,6 +29,7 @@ public class Entity {
     public BufferedImage image, image2, image3;
     public String name;
     public boolean collision = false;
+    public int type; // 0 = player, 1 = NPC, 2 = monster
 
     //CHARACTER STATUS
     public int maxLife;
