@@ -2,11 +2,13 @@ package main;
 
 import entity.Entity;
 import entity.Player;
-import object.SuperObject;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -22,6 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
     // WORLD SETTINGS
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
+
+    // FPS
     double FPS = 60; // FPS = frames per second
 
     // SYSTEM
@@ -37,8 +41,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
-    public SuperObject[] obj = new SuperObject[10];
+    public Entity[] obj = new Entity[10];
     public Entity[] npc = new Entity[10];
+    ArrayList<Entity> entityList = new ArrayList<>(); // arraylist of entities (player, npc, objects)
 
     // GAME STATE
     public int gameState;
@@ -104,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         if (gameState == pauseState) {
-            // nothing for now
+            // add later
         }
     }
 
@@ -127,20 +132,37 @@ public class GamePanel extends JPanel implements Runnable {
             // TILES
             tileM.draw(g2);     // calling draw in TileManager class (before player or else tiles will hide player)
 
-            // OBJECT
-            for (SuperObject superObject : obj) {
-                if (superObject != null) {
-                    superObject.draw(g2, this);
-                }
-            }
-            // NPC
+            // ADD ENTITIES TO THE LIST
+            entityList.add(player);
+
             for (Entity entity : npc) {
                 if (entity != null) {
-                    entity.draw(g2);
+                    entityList.add(entity);
                 }
             }
-            // PLAYER
-            player.draw(g2); // calling draw in Player class
+
+            for (Entity entity : obj) {
+                if (entity != null) {
+                    entityList.add(entity);
+                }
+            }
+
+            // SORT
+            Collections.sort(entityList, new Comparator<Entity>() {
+                @Override
+                public int compare(Entity e1, Entity e2) {
+                    return Integer.compare(e1.worldY, e2.worldY);
+                }
+            });
+
+            // DRAW ENTITIES
+            for (Entity entity : entityList) {
+                entity.draw(g2);
+            }
+            // RESET ENTITY LIST
+            for (int i = 0; i < entityList.size(); i++) {
+                entityList.remove(i);
+            }
 
             // UI
             ui.draw(g2);

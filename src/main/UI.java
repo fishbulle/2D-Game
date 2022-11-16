@@ -1,7 +1,7 @@
 package main;
 
+import entity.Entity;
 import object.Heart;
-import object.SuperObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -37,7 +37,7 @@ public class UI {
          }
 
          // CREATE HUD OBJECT
-         SuperObject heart = new Heart(gp);
+         Entity heart = new Heart(gp);
          heartFull = heart.image;
          heartHalf = heart.image2;
          heartEmpty = heart.image3;
@@ -208,16 +208,13 @@ public class UI {
                 g2.drawString(">", x-gp.tileSize, y);
             }
         }
-
-
-
     }
 
      public void drawPauseScreen() {
          String text = "GAME PAUSED";
-         int x = getXForCenteredText(text);
+         int x = gp.screenWidth / 4;
          int y = gp.screenHeight / 2;
-
+         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 50F));
          g2.drawString(text, x, y);
      }
 
