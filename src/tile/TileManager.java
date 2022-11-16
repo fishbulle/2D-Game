@@ -72,6 +72,7 @@ public class TileManager {
         setUp(39, "earth", false);
         setUp(40, "wall", true);
         setUp(41, "tree", true);
+        setUp(42, "tree2", true);
 
     }
 
