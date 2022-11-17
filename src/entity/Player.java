@@ -19,6 +19,8 @@ public class Player extends Entity {
         solidArea = new Rectangle(14, 32, 20, 16);  // adjust for managing sprite collision
         solidAreaDefaultX = 14;
         solidAreaDefaultY = 32;
+        attackArea.width = 36;
+        attackArea.height = 36;
 
         setDefaultValues();
         getPlayerImage();
@@ -153,6 +155,33 @@ public class Player extends Entity {
 
         if (spriteCounter > 5 && spriteCounter <= 25) {
             spriteNum = 2;
+
+            // Save the current worldX, worldY, solidArea
+            int currentWorldX = worldX;
+            int currentWorldY = worldY;
+            int solidAreaWidth = solidArea.width;
+            int solidAreaHeight = solidArea.height;
+
+            // Adjust player's worldX/Y for the attackArea
+            switch (direction) {
+                case "up" -> worldY -= attackArea.height;
+                case "down" -> worldY += attackArea.height;
+                case "left" -> worldX -= attackArea.width;
+                case "right" -> worldX += attackArea.width;
+            }
+            // Attack area becomes solidArea
+            solidArea.width = attackArea.width;
+            solidArea.height = attackArea.height;
+
+            // Check monster collision with the updated worldX, worldY and solidArea
+            int monsterIndex = gp.collisionCheck.checkEntity(this, gp.monster);
+            damageMonster(monsterIndex);
+
+            // After checking collision, restore the original data
+            worldX = currentWorldX;
+            worldY = currentWorldY;
+            solidArea.width = solidAreaWidth;
+            solidArea.height = solidAreaHeight;
         }
 
         if (spriteCounter > 25) {
@@ -188,9 +217,24 @@ public class Player extends Entity {
         }
     }
 
+    public void damageMonster(int i) {
+        if (i != 999) {
+            if (!gp.monster[i].invincible) {
+                gp.monster[i].life -= 1;
+                gp.monster[i].invincible = true;
+
+                if (gp.monster[i].life < 0) {
+                    gp.monster[i] = null;
+                }
+            }
+        }
+    }
+
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
+        int tempScreenX = screenX;
+        int tempScreenY = screenY;
 
         switch (direction) {
             case "up" -> {
@@ -206,6 +250,7 @@ public class Player extends Entity {
                     }
                 }
                 if (attacking) {
+                    tempScreenY = screenY - gp.tileSize;
                     if (spriteNum == 1)
                         image = attackUp1;
                     if (spriteNum == 2) {
@@ -246,6 +291,7 @@ public class Player extends Entity {
                     }
                 }
                 if (attacking) {
+                    tempScreenX = screenX - gp.tileSize;
                     if (spriteNum == 1)
                         image = attackLeft1;
                     if (spriteNum == 2) {
@@ -279,7 +325,7 @@ public class Player extends Entity {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f)); // sets opacity level
         }
 
-        g2.drawImage(image, screenX, screenY,null);
+        g2.drawImage(image, tempScreenX, tempScreenY,null);
         // Reset alpha
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 

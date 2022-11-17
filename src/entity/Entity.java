@@ -16,6 +16,7 @@ public class Entity {
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
     public BufferedImage image, image2, image3;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collision;
     String[] dialogue = new String[20];
@@ -101,6 +102,14 @@ public class Entity {
             }
             spriteCounter = 0;
         }
+
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 60) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
     }
 
     public BufferedImage setUp(String imagePath, int width, int height) {
@@ -160,6 +169,9 @@ public class Entity {
                         image = right2;
                     }
                 }
+            }
+            if (invincible) {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)); // sets opacity level
             }
 
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
