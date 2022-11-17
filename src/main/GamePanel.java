@@ -110,9 +110,14 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             // MONSTER
-            for (Entity entity : monster) {
-                if (entity != null) {
-                    entity.update();
+            for (int i = 0; i < monster.length; i++) {
+                if (monster[i] != null) {
+                    if (monster[i].alive && !monster[i].dying) {
+                        monster[i].update();
+                    }
+                    if (!monster[i].alive) {
+                        monster[i] = null;
+                    }
                 }
             }
         }
@@ -163,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             // SORT
-            Collections.sort(entityList, new Comparator<Entity>() {
+            entityList.sort(new Comparator<Entity>() {
                 @Override
                 public int compare(Entity e1, Entity e2) {
                     return Integer.compare(e1.worldY, e2.worldY);

@@ -29,11 +29,14 @@ public class Entity {
     public boolean collisionOn;
     public boolean invincible;
     public boolean attacking;
+    public boolean alive = true;
+    public boolean dying;
 
     // COUNTER
     public int spriteCounter = 0;
     public int actionLockCounter = 0;
     public int invincibleCounter = 0;
+    public int dyingCounter = 0;
 
     // CHARACTER ATTRIBUTES
     public int type; // 0 = player, 1 = NPC, 2 = monster
@@ -65,6 +68,53 @@ public class Entity {
 
     }
 
+    public void dyingAnimation(Graphics2D g2) {
+        dyingCounter++;
+        int i = 5;
+
+        if (dyingCounter <= i) {
+            changeAlpha(g2, 0f);
+        }
+
+        if (dyingCounter > i && dyingCounter <= i * 2) {
+            changeAlpha(g2, 1f);
+        }
+
+        if (dyingCounter > i * 2 && dyingCounter <= i * 3) {
+            changeAlpha(g2, 0f);
+        }
+
+        if (dyingCounter > i * 3 && dyingCounter <= i * 4) {
+            changeAlpha(g2, 1f);
+        }
+
+        if (dyingCounter > i * 4 && dyingCounter <= i * 5) {
+            changeAlpha(g2, 0f);
+        }
+
+        if (dyingCounter > i * 5 && dyingCounter <= i * 6) {
+            changeAlpha(g2, 1f);
+        }
+
+        if (dyingCounter > i * 6 && dyingCounter <= i * 7) {
+            changeAlpha(g2, 0f);
+        }
+
+        if (dyingCounter > i * 7 && dyingCounter <= i * 8) {
+            changeAlpha(g2, 1f);
+        }
+
+        if (dyingCounter > i * 8) {
+            dying = false;
+            alive = false;
+        }
+
+    }
+
+    public void changeAlpha(Graphics2D g2, float alphaValue) {
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
+    }
+
     public void update() {
         setAction();
 
@@ -77,12 +127,13 @@ public class Entity {
 
         if (this.type == 2 && contactPlayer) {
             if (!gp.player.invincible) {
+                gp.playSE(6);
                 gp.player.life -= 1;
                 gp.player.invincible = true;
             }
         }
 
-        // IF COLLISION IS FALSE, NPC CAN MOVE
+        // IF COLLISION IS FALSE, PLAYER CAN MOVE
         if (!collisionOn) {
             switch (direction) {
                 case "up" -> worldY -= speed;
@@ -110,18 +161,6 @@ public class Entity {
                 invincibleCounter = 0;
             }
         }
-    }
-
-    public BufferedImage setUp(String imagePath, int width, int height) {
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath + ".png"));
-            image = uTool.scaleImage(image, width, height);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
     }
 
     public void draw(Graphics2D g2) {
@@ -174,7 +213,23 @@ public class Entity {
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)); // sets opacity level
             }
 
+            if (dying) {
+                dyingAnimation(g2);
+            }
+
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
         }
+    }
+
+    public BufferedImage setUp(String imagePath, int width, int height) {
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath + ".png"));
+            image = uTool.scaleImage(image, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 }
