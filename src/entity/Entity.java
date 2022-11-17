@@ -31,12 +31,14 @@ public class Entity {
     public boolean attacking;
     public boolean alive = true;
     public boolean dying;
+    public boolean hpBarOn;
 
     // COUNTER
     public int spriteCounter = 0;
     public int actionLockCounter = 0;
     public int invincibleCounter = 0;
     public int dyingCounter = 0;
+    public int hpBarCounter = 0;
 
     // CHARACTER ATTRIBUTES
     public int type; // 0 = player, 1 = NPC, 2 = monster
@@ -50,6 +52,7 @@ public class Entity {
     }
 
     public void setAction() {}
+    public void damageReaction() {}
 
     public void speak() {
         if (dialogue[dialogueIndex] == null) {
@@ -209,8 +212,29 @@ public class Entity {
                     }
                 }
             }
+
+            // Monster HP bar
+            if (type == 2 && hpBarOn) {
+                double oneScale = (double)gp.tileSize / maxLife;
+                double hpBarValue = oneScale * life;
+
+                g2.setColor(new Color(35, 35, 35));
+                g2.fillRect(screenX - 1, screenY - 16, gp.tileSize + 2, 10);
+                g2.setColor(new Color(255, 0, 30));
+                g2.fillRect(screenX, screenY - 15, (int)hpBarValue, 8);
+
+                hpBarCounter++;
+
+                if (hpBarCounter > 600) {
+                    hpBarCounter = 0;
+                    hpBarOn = false;
+                }
+            }
+
             if (invincible) {
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)); // sets opacity level
+                hpBarOn = true;
+                hpBarCounter = 0;
+                changeAlpha(g2, 0.4f);
             }
 
             if (dying) {
@@ -218,6 +242,7 @@ public class Entity {
             }
 
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            changeAlpha(g2, 1f);
         }
     }
 

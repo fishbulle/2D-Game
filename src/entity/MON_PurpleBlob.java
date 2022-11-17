@@ -12,7 +12,7 @@ public class MON_PurpleBlob extends Entity {
         type = 2;
         name = "Purple Blob";
         speed = 1;
-        maxLife = 4;
+        maxLife = 10;
         life = maxLife;
 
         solidArea.x = 3;
@@ -62,5 +62,10 @@ public class MON_PurpleBlob extends Entity {
 
             actionLockCounter = 0;
         }
+    }
+
+    public void damageReaction() {
+        actionLockCounter = 0;
+        direction = gp.player.direction;
     }
 }
