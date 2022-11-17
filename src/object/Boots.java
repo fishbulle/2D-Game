@@ -10,6 +10,6 @@ public class Boots extends Entity {
         super(gp);
 
         name = "Boots";
-        down1 = setUp("objects/boots");
+        down1 = setUp("objects/boots", gp.tileSize, gp.tileSize);
     }
 }

@@ -26,14 +26,14 @@ public class MON_PurpleBlob extends Entity {
     }
 
     public void getImage() {
-        up1 = setUp("monsters/blobpurple");
-        up2 = setUp("monsters/blobpurple2");
-        down1 = setUp("monsters/blobpurple");
-        down2 = setUp("monsters/blobpurple2");
-        left1 = setUp("monsters/blobpurple");
-        left2 = setUp("monsters/blobpurple2");
-        right1 = setUp("monsters/blobpurple");
-        right2 = setUp("monsters/blobpurple2");
+        up1 = setUp("monsters/blobpurple", gp.tileSize, gp.tileSize);
+        up2 = setUp("monsters/blobpurple2", gp.tileSize, gp.tileSize);
+        down1 = setUp("monsters/blobpurple", gp.tileSize, gp.tileSize);
+        down2 = setUp("monsters/blobpurple2", gp.tileSize, gp.tileSize);
+        left1 = setUp("monsters/blobpurple", gp.tileSize, gp.tileSize);
+        left2 = setUp("monsters/blobpurple2", gp.tileSize, gp.tileSize);
+        right1 = setUp("monsters/blobpurple", gp.tileSize, gp.tileSize);
+        right2 = setUp("monsters/blobpurple2", gp.tileSize, gp.tileSize);
     }
 
     public void setAction() {

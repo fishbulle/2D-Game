@@ -12,26 +12,32 @@ import java.io.IOException;
 public class Entity {
 
     GamePanel gp;
-    public int worldX, worldY;
-    public int speed;
     public BufferedImage up1, up2, upStill, down1, down2, downStill, left1, left2, leftStill, right1, right2, rightStill;
-    public String direction = "down";
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
+    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
+    public BufferedImage image, image2, image3;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public int solidAreaDefaultX, solidAreaDefaultY;
-    public boolean collisionOn;
-    public int actionLockCounter = 0;
-    public boolean invincible;
-    public int invincibleCounter = 0;
+    public boolean collision;
     String[] dialogue = new String[20];
-    public int dialogueIndex = 0;
-    public BufferedImage image, image2, image3;
-    public String name;
-    public boolean collision = false;
-    public int type; // 0 = player, 1 = NPC, 2 = monster
 
-    //CHARACTER STATUS
+    // STATE
+    public int worldX, worldY;
+    public String direction = "down";
+    public int spriteNum = 1;
+    public int dialogueIndex = 0;
+    public boolean collisionOn;
+    public boolean invincible;
+    public boolean attacking;
+
+    // COUNTER
+    public int spriteCounter = 0;
+    public int actionLockCounter = 0;
+    public int invincibleCounter = 0;
+
+    // CHARACTER ATTRIBUTES
+    public int type; // 0 = player, 1 = NPC, 2 = monster
+    public String name;
+    public int speed;
     public int maxLife;
     public int life;
 
@@ -66,7 +72,14 @@ public class Entity {
         gp.collisionCheck.checkObject(this, false);
         gp.collisionCheck.checkEntity(this, gp.npc);
         gp.collisionCheck.checkEntity(this, gp.monster);
-        gp.collisionCheck.checkPlayer(this);
+        boolean contactPlayer = gp.collisionCheck.checkPlayer(this);
+
+        if (this.type == 2 && contactPlayer) {
+            if (!gp.player.invincible) {
+                gp.player.life -= 1;
+                gp.player.invincible = true;
+            }
+        }
 
         // IF COLLISION IS FALSE, NPC CAN MOVE
         if (!collisionOn) {
@@ -90,12 +103,12 @@ public class Entity {
         }
     }
 
-    public BufferedImage setUp(String imagePath) {
+    public BufferedImage setUp(String imagePath, int width, int height) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
         try {
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath + ".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+            image = uTool.scaleImage(image, width, height);
         } catch (IOException e) {
             e.printStackTrace();
         }

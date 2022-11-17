@@ -10,7 +10,7 @@ public class Stone extends Entity {
         super(gp);
 
         name = "Stone";
-        down1 = setUp("objects/stone");
+        down1 = setUp("objects/stone", gp.tileSize, gp.tileSize);
         collision = true;
     }
 }

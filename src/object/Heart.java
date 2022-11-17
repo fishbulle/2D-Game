@@ -10,8 +10,8 @@ public class Heart extends Entity {
         super(gp);
 
         name = "Heart";
-        image = setUp("objects/heartfull");
-        image2 = setUp("objects/hearthalf");
-        image3 = setUp("objects/heartempty");
+        image = setUp("objects/heartfull", gp.tileSize, gp.tileSize);
+        image2 = setUp("objects/hearthalf", gp.tileSize, gp.tileSize);
+        image3 = setUp("objects/heartempty", gp.tileSize, gp.tileSize);
     }
 }

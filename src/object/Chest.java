@@ -10,6 +10,6 @@ public class Chest extends Entity {
         super(gp);
 
         name = "Chest";
-        down1 = setUp("objects/chest");
+        down1 = setUp("objects/chest", gp.tileSize, gp.tileSize);
     }
 }
