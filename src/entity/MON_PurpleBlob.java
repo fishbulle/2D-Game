@@ -16,7 +16,7 @@ public class MON_PurpleBlob extends Entity {
         life = maxLife;
         attack = 4;
         defense = 0;
-        exp = 2;
+        exp = 1;
 
         solidArea.x = 3;
         solidArea.y = 18;

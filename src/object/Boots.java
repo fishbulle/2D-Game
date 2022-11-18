@@ -9,7 +9,8 @@ public class Boots extends Entity {
 
         super(gp);
 
-        name = "Boots";
+        name = "Pink Boots";
         down1 = setUp("objects/boots", gp.tileSize, gp.tileSize);
+        description = "["+ name + "]\nA pair of magical boots.\nSpeed +2";
     }
 }

@@ -48,13 +48,13 @@ public class KeyHandler implements KeyListener {
 
     public void titleState(int code) {
         if (gp.ui.titleScreenState == 0) {
-            if (code == KeyEvent.VK_UP) {
+            if (code == KeyEvent.VK_W) {
                 gp.ui.commandNum--;
                 if (gp.ui.commandNum < 0) {
                     gp.ui.commandNum = 2;
                 }
             }
-            if (code == KeyEvent.VK_DOWN) {
+            if (code == KeyEvent.VK_S) {
                 gp.ui.commandNum++;
                 if (gp.ui.commandNum > 2) {
                     gp.ui.commandNum = 0;
@@ -72,13 +72,13 @@ public class KeyHandler implements KeyListener {
                 }
             }
         } else if (gp.ui.titleScreenState == 1) {
-            if (code == KeyEvent.VK_UP) {
+            if (code == KeyEvent.VK_W) {
                 gp.ui.commandNum--;
                 if (gp.ui.commandNum < 0) {
                     gp.ui.commandNum = 3;
                 }
             }
-            if (code == KeyEvent.VK_DOWN) {
+            if (code == KeyEvent.VK_S) {
                 gp.ui.commandNum++;
                 if (gp.ui.commandNum > 3) {
                     gp.ui.commandNum = 0;
@@ -156,6 +156,33 @@ public class KeyHandler implements KeyListener {
             gp.gameState = gp.playState;
         }
 
+        if (code == KeyEvent.VK_W) {
+            if (gp.ui.slotRow != 0) {
+                gp.ui.slotRow--;
+                gp.playSE(9);
+            }
+        }
+
+        if (code == KeyEvent.VK_S) {
+            if (gp.ui.slotRow != 3) {
+                gp.ui.slotRow++;
+                gp.playSE(9);
+            }
+        }
+
+        if (code == KeyEvent.VK_A) {
+            if (gp.ui.slotCol != 0) {
+                gp.ui.slotCol--;
+                gp.playSE(9);
+            }
+        }
+
+        if (code == KeyEvent.VK_D) {
+            if (gp.ui.slotCol != 6) {
+                gp.ui.slotCol++;
+                gp.playSE(9);
+            }
+        }
     }
 
     @Override

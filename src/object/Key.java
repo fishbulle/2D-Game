@@ -11,5 +11,6 @@ public class Key extends Entity {
 
         name = "Key";
         down1 = setUp("objects/key", gp.tileSize, gp.tileSize);
+        description = "["+ name + "]\nMight open a door.";
     }
 }

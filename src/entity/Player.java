@@ -4,9 +4,12 @@ import main.GamePanel;
 import main.KeyHandler;
 import object.BasicShield;
 import object.BasicSword;
+import object.Boots;
+import object.Key;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends Entity {
 
@@ -14,6 +17,8 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     public boolean attackCanceled;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 28;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -29,6 +34,7 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImg();
+        setItem();
     }
 
     public void setDefaultValues() {
@@ -52,6 +58,12 @@ public class Player extends Entity {
         defense = getDefense(); // The total defense value is decided by dexterity and shield
     }
 
+    public void setItem() {
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(new Key(gp));
+        inventory.add(new Boots(gp));
+    }
     public int getAttack() {
         return attack = strength * currentWeapon.attackValue;
     }
