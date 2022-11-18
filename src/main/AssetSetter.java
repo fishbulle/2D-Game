@@ -39,18 +39,33 @@ public class AssetSetter {
         i++;
 
         gp.monster[i] = new MON_PurpleBlob(gp);
+        gp.monster[i].worldX = gp.tileSize * 23;
+        gp.monster[i].worldY = gp.tileSize * 36;
+        i++;
+
+        gp.monster[i] = new MON_PurpleBlob(gp);
+        gp.monster[i].worldX = gp.tileSize * 25;
+        gp.monster[i].worldY = gp.tileSize * 38;
+        i++;
+
+        gp.monster[i] = new MON_PurpleBlob(gp);
         gp.monster[i].worldX = gp.tileSize * 24;
-        gp.monster[i].worldY = gp.tileSize * 35;
+        gp.monster[i].worldY = gp.tileSize * 34;
         i++;
 
         gp.monster[i] = new MON_PurpleBlob(gp);
-        gp.monster[i].worldX = gp.tileSize * 25;
-        gp.monster[i].worldY = gp.tileSize * 37;
+        gp.monster[i].worldX = gp.tileSize * 35;
+        gp.monster[i].worldY = gp.tileSize * 34;
         i++;
 
         gp.monster[i] = new MON_PurpleBlob(gp);
-        gp.monster[i].worldX = gp.tileSize * 25;
-        gp.monster[i].worldY = gp.tileSize * 37;
+        gp.monster[i].worldX = gp.tileSize * 36;
+        gp.monster[i].worldY = gp.tileSize * 34;
+        i++;
+
+        gp.monster[i] = new MON_PurpleBlob(gp);
+        gp.monster[i].worldX = gp.tileSize * 37;
+        gp.monster[i].worldY = gp.tileSize * 34;
 
     }
 }

@@ -263,7 +263,7 @@ public class Player extends Entity {
                 gp.monster[i].invincible = true;
                 gp.monster[i].damageReaction();
 
-                if (gp.monster[i].life < 0) {
+                if (gp.monster[i].life <= 0) {
                     gp.monster[i].dying = true;
                     gp.ui.addMessage(gp.monster[i].name + " is dead!");
                     gp.ui.addMessage(gp.monster[i].exp + " EXP");
@@ -286,7 +286,7 @@ public class Player extends Entity {
 
             gp.playSE(8);
             gp.gameState = gp.dialogueState;
-            gp.ui.currentDialogue = "Level up! New level " + level;
+            gp.ui.currentDialogue = "Level up! New level: " + level;
         }
     }
 

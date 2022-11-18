@@ -257,6 +257,8 @@ public class Entity {
             }
 
             if (dying) {
+                //hpBarCounter = 0;
+                hpBarOn = false;
                 dyingAnimation(g2);
             }
 
