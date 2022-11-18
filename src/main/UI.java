@@ -296,12 +296,14 @@ public class UI {
          textY += lineHeight;
          g2.drawString("Defense", textX, textY);
          textY += lineHeight;
+         g2.drawString("Speed", textX, textY);
+         textY += lineHeight;
          g2.drawString("Exp", textX, textY);
          textY += lineHeight;
          g2.drawString("Next level", textX, textY);
          textY += lineHeight;
          g2.drawString("Coin", textX, textY);
-         textY += lineHeight + 130;
+         textY += lineHeight + 100;
          g2.drawString("Weapon", textX, textY);
          textY += lineHeight + 15;
          g2.drawString("Shield", textX, textY);
@@ -342,6 +344,11 @@ public class UI {
          g2.drawString(value, textX, textY);
          textY += lineHeight;
 
+         value = String.valueOf(gp.player.speed);
+         textX = getXForAlignToRightText(value, tailX);
+         g2.drawString(value, textX, textY);
+         textY += lineHeight;
+
          value = String.valueOf(gp.player.exp);
          textX = getXForAlignToRightText(value, tailX);
          g2.drawString(value, textX, textY);
@@ -357,9 +364,9 @@ public class UI {
          g2.drawString(value, textX, textY);
          textY += lineHeight;
 
-         g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY + 97, null);
+         g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY + 67, null);
          textY += gp.tileSize;
-         g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY + 97, null);
+         g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY + 67, null);
      }
 
      public void drawInventory() {
@@ -379,6 +386,14 @@ public class UI {
 
          // Draw inventory items
          for (int i = 0; i < gp.player.inventory.size(); i++) {
+             // Equip cursor
+             if (gp.player.inventory.get(i) == gp.player.currentWeapon ||
+                 gp.player.inventory.get(i) == gp.player.currentShield ||
+                 gp.player.inventory.get(i) == gp.player.currentBoots) {
+                 g2.setColor(new Color(240, 190, 90));
+                 g2.fillRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10, 10);
+             }
+
              g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY, null);
              slotX += slotSize;
 
@@ -398,20 +413,18 @@ public class UI {
          g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
 
          // Item description frame
-         int dFrameX = frameX;
          int dFrameY = (frameY + frameHeight) + 20;
-         int dFrameWidth = frameWidth;
          int dFrameHeight = gp.tileSize * 4;
-         drawWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
 
          // Description text
-         int textX = dFrameX + 20;
+         int textX = frameX + 20;
          int textY = dFrameY + gp.tileSize;
          g2.setFont(g2.getFont().deriveFont(18F));
 
          int itemIndex = getItemIndex();
 
          if (itemIndex < gp.player.inventory.size()) {
+             drawWindow(frameX, dFrameY, frameWidth, dFrameHeight);
              for (String line: gp.player.inventory.get(itemIndex).description.split("\n")) {
                  g2.drawString(line, textX, textY);
                  textY += 32;

@@ -7,15 +7,41 @@ import object.*;
 public class AssetSetter {
 
     GamePanel gp;
+    int i = 0;
 
     public AssetSetter(GamePanel gp) {
         this.gp = gp;
     }
 
     public void setObject() {
-/*        gp.obj[0] = new Door(gp);
-        gp.obj[0].worldX = gp.tileSize * 21;
-        gp.obj[0].worldY = gp.tileSize * 22;*/
+        gp.obj[i] = new Key(gp);
+        gp.obj[i].worldX = gp.tileSize * 21;
+        gp.obj[i].worldY = gp.tileSize * 22;
+        i++;
+
+        gp.obj[i] = new Key(gp);
+        gp.obj[i].worldX = gp.tileSize * 22;
+        gp.obj[i].worldY = gp.tileSize * 23;
+        i++;
+
+        gp.obj[i] = new Key(gp);
+        gp.obj[i].worldX = gp.tileSize * 20;
+        gp.obj[i].worldY = gp.tileSize * 20;
+        i++;
+
+        gp.obj[i] = new MagicalShield(gp);
+        gp.obj[i].worldX = gp.tileSize * 40;
+        gp.obj[i].worldY = gp.tileSize * 10;
+        i++;
+
+        gp.obj[i] = new MagicalSword(gp);
+        gp.obj[i].worldX = gp.tileSize * 10;
+        gp.obj[i].worldY = gp.tileSize * 18;
+        i++;
+
+        gp.obj[i] = new WoodAxe(gp);
+        gp.obj[i].worldX = gp.tileSize * 22;
+        gp.obj[i].worldY = gp.tileSize * 25;
     }
 
     public void setNPC() {
@@ -26,8 +52,6 @@ public class AssetSetter {
     }
 
     public void setMonster() {
-        int i = 0;
-
         gp.monster[i] = new MON_PurpleBlob(gp);
         gp.monster[i].worldX = gp.tileSize * 24;
         gp.monster[i].worldY = gp.tileSize * 35;

@@ -8,6 +8,7 @@ public class BasicShield extends Entity {
     public BasicShield(GamePanel gp) {
         super(gp);
 
+        type = type_shield;
         name = "Basic Shield";
         down1 = setUp("objects/basicshield", gp.tileSize, gp.tileSize);
         defenseValue = 1;

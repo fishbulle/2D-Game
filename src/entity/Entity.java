@@ -41,7 +41,6 @@ public class Entity {
     public int hpBarCounter = 0;
 
     // CHARACTER ATTRIBUTES
-    public int type; // 0 = player, 1 = NPC, 2 = monster
     public String name;
     public int speed;
     public int maxLife;
@@ -57,11 +56,24 @@ public class Entity {
     public int mana;
     public Entity currentWeapon;
     public Entity currentShield;
+    public Entity currentBoots;
 
     // ITEM ATTRIBUTES
     public int attackValue;
     public int defenseValue;
+    public int speedValue;
     public String description;
+
+    // TYPE
+    public int type; // 0 = player, 1 = NPC, 2 = monster
+    public final int type_player = 0;
+    public final int type_npc = 1;
+    public final int type_monster = 2;
+    public final int type_sword = 3;
+    public final int type_axe = 4;
+    public final int type_shield = 5;
+    public final int type_consumable = 6;
+    public final int type_boots = 7;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -130,10 +142,6 @@ public class Entity {
 
     }
 
-    public void changeAlpha(Graphics2D g2, float alphaValue) {
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
-    }
-
     public void update() {
         setAction();
 
@@ -144,7 +152,7 @@ public class Entity {
         gp.collisionCheck.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.collisionCheck.checkPlayer(this);
 
-        if (this.type == 2 && contactPlayer) {
+        if (this.type == type_monster && contactPlayer) {
             if (!gp.player.invincible) {
                 gp.playSE(6);
                 int damage = attack - gp.player.defense;
@@ -278,5 +286,9 @@ public class Entity {
             e.printStackTrace();
         }
         return image;
+    }
+
+    public void changeAlpha(Graphics2D g2, float alphaValue) {
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
     }
 }

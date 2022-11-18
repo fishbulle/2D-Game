@@ -2,10 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import object.BasicShield;
-import object.BasicSword;
-import object.Boots;
-import object.Key;
+import object.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,11 +22,10 @@ public class Player extends Entity {
         this.keyH = keyH;
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+        // SOLID AREA
         solidArea = new Rectangle(14, 32, 20, 16);  // adjust for managing sprite collision
         solidAreaDefaultX = 14;
         solidAreaDefaultY = 32;
-        attackArea.width = 36;
-        attackArea.height = 36;
 
         setDefaultValues();
         getPlayerImage();
@@ -40,7 +36,6 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 23;   // player's starting position on the world map
         worldY = gp.tileSize * 21;
-        speed = 4;
         direction = "down";
 
         // PLAYER STATUS
@@ -54,22 +49,28 @@ public class Player extends Entity {
         coin = 0;
         currentWeapon = new BasicSword(gp);
         currentShield = new BasicShield(gp);
+        currentBoots = new LeatherBoots(gp);
         attack = getAttack();   // The total attack value is decided by strength and weapon
         defense = getDefense(); // The total defense value is decided by dexterity and shield
+        speed = getSpeed();
     }
 
     public void setItem() {
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new Key(gp));
-        inventory.add(new Boots(gp));
+        inventory.add(currentBoots);
     }
     public int getAttack() {
+        attackArea = currentWeapon.attackArea;
         return attack = strength * currentWeapon.attackValue;
     }
 
     public int getDefense() {
         return defense = dexterity * currentShield.defenseValue;
+    }
+
+    public int getSpeed() {
+        return speed = currentBoots.speedValue;
     }
 
     public void getPlayerImage() {
@@ -234,7 +235,18 @@ public class Player extends Entity {
 
     public void pickUpObject(int i) {
         if (i != 999) {
+            String text;
 
+            if (inventory.size() != maxInventorySize) {
+                inventory.add(gp.obj[i]);
+                gp.playSE(1);
+                text = "You found a " + gp.obj[i].name + "!";
+            }
+            else {
+                text = "Inventory full.";
+            }
+            gp.ui.addMessage(text);
+            gp.obj[i] = null;
         }
     }
 
@@ -299,6 +311,28 @@ public class Player extends Entity {
             gp.playSE(8);
             gp.gameState = gp.dialogueState;
             gp.ui.currentDialogue = "Level up! New level: " + level;
+        }
+    }
+
+    public void selectItem() {
+        int itemIndex = gp.ui.getItemIndex();
+
+        if (itemIndex < inventory.size()) {
+            Entity selectedItem = inventory.get(itemIndex);
+
+            if (selectedItem.type == type_sword || selectedItem.type == type_axe) {
+                currentWeapon = selectedItem;
+                attack = getAttack();
+            }
+
+            if (selectedItem.type == type_shield) {
+                currentShield = selectedItem;
+                defense = getDefense();
+            }
+
+            if (selectedItem.type == type_consumable) {
+                // later
+            }
         }
     }
 
