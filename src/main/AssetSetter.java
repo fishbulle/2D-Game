@@ -19,12 +19,7 @@ public class AssetSetter {
         gp.obj[i].worldY = gp.tileSize * 22;
         i++;
 
-        gp.obj[i] = new Key(gp);
-        gp.obj[i].worldX = gp.tileSize * 22;
-        gp.obj[i].worldY = gp.tileSize * 23;
-        i++;
-
-        gp.obj[i] = new Key(gp);
+        gp.obj[i] = new HealingPotion(gp);
         gp.obj[i].worldX = gp.tileSize * 20;
         gp.obj[i].worldY = gp.tileSize * 20;
         i++;

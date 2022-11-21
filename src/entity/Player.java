@@ -91,14 +91,27 @@ public class Player extends Entity {
 
     public void getPlayerAttackImg() {
 
-        attackUp1 = setUp("player/attackup1", gp.tileSize, gp.tileSize * 2);
-        attackUp2 = setUp("player/attackup2", gp.tileSize, gp.tileSize * 2);
-        attackDown1 = setUp("player/attackdown1", gp.tileSize, gp.tileSize * 2);
-        attackDown2 = setUp("player/attackdown2", gp.tileSize, gp.tileSize * 2);
-        attackLeft1 = setUp("player/attackleft1", gp.tileSize * 2, gp.tileSize);
-        attackLeft2 = setUp("player/attackleft2", gp.tileSize * 2, gp.tileSize);
-        attackRight1 = setUp("player/attackright1", gp.tileSize * 2, gp.tileSize);
-        attackRight2 = setUp("player/attackright2", gp.tileSize * 2, gp.tileSize);
+        if (currentWeapon.type == type_sword) {
+            attackUp1 = setUp("player/attackup1", gp.tileSize, gp.tileSize * 2);
+            attackUp2 = setUp("player/attackup2", gp.tileSize, gp.tileSize * 2);
+            attackDown1 = setUp("player/attackdown1", gp.tileSize, gp.tileSize * 2);
+            attackDown2 = setUp("player/attackdown2", gp.tileSize, gp.tileSize * 2);
+            attackLeft1 = setUp("player/attackleft1", gp.tileSize * 2, gp.tileSize);
+            attackLeft2 = setUp("player/attackleft2", gp.tileSize * 2, gp.tileSize);
+            attackRight1 = setUp("player/attackright1", gp.tileSize * 2, gp.tileSize);
+            attackRight2 = setUp("player/attackright2", gp.tileSize * 2, gp.tileSize);
+        }
+
+        if (currentWeapon.type == type_axe) {
+            attackUp1 = setUp("player/axeup1", gp.tileSize, gp.tileSize * 2);
+            attackUp2 = setUp("player/axeup2", gp.tileSize, gp.tileSize * 2);
+            attackDown1 = setUp("player/axedown1", gp.tileSize, gp.tileSize * 2);
+            attackDown2 = setUp("player/axedown2", gp.tileSize, gp.tileSize * 2);
+            attackLeft1 = setUp("player/axeleft1", gp.tileSize * 2, gp.tileSize);
+            attackLeft2 = setUp("player/axeleft2", gp.tileSize * 2, gp.tileSize);
+            attackRight1 = setUp("player/axeright1", gp.tileSize * 2, gp.tileSize);
+            attackRight2 = setUp("player/axeright2", gp.tileSize * 2, gp.tileSize);
+        }
     }
 
     public void update() {
@@ -186,7 +199,6 @@ public class Player extends Entity {
                 invincibleCounter = 0;
             }
         }
-
     }
 
     public void attacking() {
@@ -323,6 +335,7 @@ public class Player extends Entity {
             if (selectedItem.type == type_sword || selectedItem.type == type_axe) {
                 currentWeapon = selectedItem;
                 attack = getAttack();
+                getPlayerAttackImg();
             }
 
             if (selectedItem.type == type_shield) {
@@ -331,7 +344,8 @@ public class Player extends Entity {
             }
 
             if (selectedItem.type == type_consumable) {
-                // later
+                selectedItem.use(this);
+                inventory.remove(itemIndex);
             }
         }
     }
